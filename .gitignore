@@ -7,3 +7,11 @@ gradlew
 gradlew.bat
 build/
 .gradle/
+
+#DS_Store
+.DS_Store
+src/.DS_Store
+src/main/.DS_Store
+src/main/java/.DS_Store
+src/main/java/com/.DS_Store
+src/main/java/com/tw/.DS_Store
