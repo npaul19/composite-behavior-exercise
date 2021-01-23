@@ -1,6 +1,6 @@
 package com.tw.dojo.bouncingBall.model;
 
-public class ElasticBall extends Ball {
+public class Elastic implements Behavior {
     public static final int GROWTH_RATE = 2;
 
     static final int GROW = 1;
@@ -8,44 +8,44 @@ public class ElasticBall extends Ball {
 
     private int growthDirection;
 
-    ElasticBall(int x, int y, int radius, int growthDirection) {
-        super(x, y, radius);
+    Elastic(int growthDirection) {
         this.growthDirection = growthDirection;
     }
 
     @Override
-    public void update() {
-        growthDirection = reverseGrowthDirectionIfNecessary();
-        radius = next();
+    public void update(Ball ball) {
+        growthDirection = reverseGrowthDirectionIfNecessary(ball.radius);
+        ball.radius = next(ball.radius);
     }
 
     /***********************************************************************************
      *
      * Do not change Elastic ALGORITHM below.
      *
-     ***********************************************************************************/
+     **********************************************************************************
+     * @param radius of Ball*/
 
-    private int reverseGrowthDirectionIfNecessary() {
-        if (growingTooBig() || shrinkingTooSmall()) {
+    private int reverseGrowthDirectionIfNecessary(int radius) {
+        if (growingTooBig(radius) || shrinkingTooSmall(radius)) {
             return switchDirection();
         }
 
         return this.growthDirection;
     }
 
-    private boolean shrinkingTooSmall() {
+    private boolean shrinkingTooSmall(int radius) {
         return radius <= 0 && shrinking();
     }
 
-    private boolean growingTooBig() {
-        return radius >= DEFAULT_RADIUS && growing();
+    private boolean growingTooBig(int radius) {
+        return radius >= Ball.DEFAULT_RADIUS && growing();
     }
 
     private int switchDirection() {
         return growing() ? SHRINK : GROW;
     }
 
-    private int next() {
+    private int next(int radius) {
         return radius + (GROWTH_RATE * growthDirection);
     }
 

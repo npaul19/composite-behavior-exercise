@@ -2,7 +2,7 @@ package com.tw.dojo.bouncingBall.model;
 
 import com.tw.dojo.bouncingBall.ui.BallWorld;
 
-public class BouncingBall extends Ball {
+public class Bounce implements Behavior {
     public static final int MOVEMENT_SPEED = 12;
 
     static final int DOWN = 1;
@@ -10,15 +10,14 @@ public class BouncingBall extends Ball {
 
     private int direction;
 
-    BouncingBall(int x, int y, int direction) {
-        super(x, y);
+    Bounce(int direction) {
         this.direction = direction;
     }
 
     @Override
-    public void update() {
-        direction = reverseDirectionIfNecessary();
-        y = move();
+    public void update(Ball ball) {
+        direction = reverseDirectionIfNecessary(ball.y, ball.radius);
+        ball.y = move(ball.y);
     }
 
     /***********************************************************************************
@@ -27,19 +26,19 @@ public class BouncingBall extends Ball {
      *
      ***********************************************************************************/
 
-    private int reverseDirectionIfNecessary() {
-        if (movingTooHigh() || movingTooLow()) {
+    private int reverseDirectionIfNecessary(int y, int radius) {
+        if (movingTooHigh(y, radius) || movingTooLow(y, radius)) {
             return switchDirection();
         }
 
         return this.direction;
     }
 
-    private boolean movingTooLow() {
+    private boolean movingTooLow(int y, int radius) {
         return y + radius >= BallWorld.BOX_HEIGHT && movingDown();
     }
 
-    private boolean movingTooHigh() {
+    private boolean movingTooHigh(int y, int radius) {
         return y - radius <= 0 && movingUp();
     }
 
@@ -47,7 +46,7 @@ public class BouncingBall extends Ball {
         return movingDown() ? UP : DOWN;
     }
 
-    private int move() {
+    private int move(int y) {
         return y + (MOVEMENT_SPEED * direction);
     }
 

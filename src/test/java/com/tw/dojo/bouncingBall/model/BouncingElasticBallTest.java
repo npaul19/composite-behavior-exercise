@@ -7,7 +7,7 @@ import static com.tw.dojo.bouncingBall.BallTestHarness.*;
 public class BouncingElasticBallTest {
     @Test
     public void shouldGoDown() {
-        Ball bouncingElasticBall = BallFactory.bouncingElasticBall(0, 0, BouncingBall.DOWN, ElasticBall.SHRINK);
+        Ball bouncingElasticBall = BallFactory.bouncingElasticBall(0, 0, Bounce.DOWN, Elastic.SHRINK);
 
         bouncingElasticBall.update();
 
@@ -16,10 +16,21 @@ public class BouncingElasticBallTest {
 
     @Test
     public void shouldDecreaseRadius() {
-        Ball bouncingElasticBall = BallFactory.bouncingElasticBall(0, 0, BouncingBall.DOWN, ElasticBall.SHRINK);
+        Ball bouncingElasticBall = BallFactory.bouncingElasticBall(0, 0, Bounce.DOWN, Elastic.SHRINK);
 
         bouncingElasticBall.update();
 
         assertRadiusIs(oneStepInwardsFrom(Ball.DEFAULT_RADIUS), bouncingElasticBall);
     }
+
+    @Test
+    public void shouldGoDownAndDecreaseRadius() {
+        Ball bouncingElasticBall = BallFactory.bouncingElasticBall(0, 0, Bounce.DOWN, Elastic.SHRINK);
+
+        bouncingElasticBall.update();
+
+        assertCenterYCoordinateIs(oneStepDownFrom(0), bouncingElasticBall);
+        assertRadiusIs(oneStepInwardsFrom(Ball.DEFAULT_RADIUS), bouncingElasticBall);
+    }
+
 }

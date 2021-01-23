@@ -1,24 +1,38 @@
 package com.tw.dojo.bouncingBall.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 public class BallFactory {
 
     public static Ball[] all() {
         return new Ball[]{
-                bouncingBall(75, 50, BouncingBall.DOWN),
-                elasticBall(250, 100, Ball.DEFAULT_RADIUS, ElasticBall.SHRINK),
-                bouncingElasticBall(400, 150, BouncingBall.DOWN, ElasticBall.SHRINK)
+                bouncingBall(75, 50, Bounce.DOWN),
+                elasticBall(250, 100, Ball.DEFAULT_RADIUS, Elastic.SHRINK),
+                bouncingElasticBall(400, 150, Bounce.DOWN, Elastic.SHRINK)
         };
     }
 
     public static Ball bouncingBall(int centerX, int centerY, int direction) {
-        return new BouncingBall(centerX, centerY, direction);
+        Behavior bounce = new Bounce(direction);
+        return new Ball(centerX, centerY, new ArrayList<>(
+                Collections.singletonList(bounce)
+        ));
     }
 
     public static Ball elasticBall(int centerX, int centerY, int radius, int direction) {
-        return new ElasticBall(centerX, centerY, radius, direction);
+        Behavior elastic = new Elastic(direction);
+        return new Ball(centerX, centerY, radius, new ArrayList<>(
+                Collections.singletonList(elastic)
+        ));
     }
 
     public static Ball bouncingElasticBall(int centerX, int centerY, int bouncingDirection, int elasticDirection) {
-        return new BouncingElasticBall(centerX, centerY, bouncingDirection, elasticDirection);
+        Behavior bounce = new Bounce(bouncingDirection);
+        Behavior elastic = new Elastic(elasticDirection);
+        return new Ball(centerX, centerY, new ArrayList<>(
+                Arrays.asList(bounce, elastic)
+        ));
     }
 }
