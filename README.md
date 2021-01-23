@@ -12,7 +12,10 @@ These two balls are implemented in ```BouncingBall.java``` and ```ElasticBall.ja
 - We cannot inherit BouncingElasticBall from both BouncingBall and ElasticBall. If they were interfaces, we could, but we can’t change the contract.
 - Also, we should not inherit from only one class and rewrite methods from the other class because this would also lead to duplication of code and it doesn’t make any sense.
 - So, we used composition to use private methods of BouncingBall and ElasticBall in BouncingElasticBall by making an object of them in our class and calling their update method.
-
   **Problem:**
   - If there is another functionality - Colourful, and we require a colourful bouncing ball, then we would have to make another class and similarly for every Permutation and combination.
   - Both balls are tightly coupled with BouncingElasticBall
+
+**Solution2:**
+- Now, we have a **Behavior** interface and Bounce and Elastic class implement it.
+- ```Ball.java``` has an array of behaviours which will be assigned at run time via factory methods. This depicts Loose Coupling.
